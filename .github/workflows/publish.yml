@@ -1,0 +1,57 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run basic validation (optional)
+        run: node dist/cli.js --help
+
+      - name: Test CLI with sample files
+        run: node dist/cli.js --path test-files
+
+      - name: Generate .tgz package
+        run: npm pack
+
+      - name: Get package version
+        id: pkg
+        shell: bash
+        run: |
+          echo "version=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_OUTPUT
+
+      - name: Upload .tgz as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaml-doctor-${{ steps.pkg.outputs.version }}.tgz
+          path: "*.tgz"
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          npm publish --access public

@@ -1,0 +1,28 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    # Missing runs-on (warning)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4  # Good: pinned version
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+  
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout  # Info: missing version pin
+      - name: Build application
+        run: npm run build

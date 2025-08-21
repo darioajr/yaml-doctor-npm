@@ -1,0 +1,10 @@
+src/
+examples/
+test-files/
+*.test.ts
+*.spec.ts
+.eslintrc.js
+.gitignore
+tsconfig.json
+.eslintcache
+node_modules/

@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest  # Warning: using latest tag
+    ports:
+      - "80:80"
+    # Missing restart policy (info)
+  
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    
+  db:
+    # Warning: missing image or build
+    environment:
+      - POSTGRES_DB=myapp
+    ports:
+      - "5432:5432"
