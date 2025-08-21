@@ -15,7 +15,11 @@ npm login
 
 ### 2. Build the project
 ```bash
-npm run build
+npm run validate  # Runs typecheck, build, and lint
+# or individually:
+npm run typecheck  # TypeScript type checking
+npm run build      # Compile TypeScript
+npm run lint       # ESLint on compiled JavaScript
 ```
 
 ### 3. Publish to NPM
@@ -63,8 +67,9 @@ The repository includes two GitHub Actions workflows:
 
 Both workflows include:
 - ✅ Dependency installation
+- ✅ TypeScript type checking
+- ✅ TypeScript compilation  
 - ✅ ESLint validation
-- ✅ TypeScript compilation
 - ✅ CLI testing with sample files
 - ✅ JSON output validation
 - ✅ Package generation (.tgz)
