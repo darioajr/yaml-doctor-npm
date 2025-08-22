@@ -34,7 +34,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/darioajr/yaml-doctor-npm.git"
+    "url": "git+https://github.com/darioajr/yaml-doctor-npm.git"
   },
   "bugs": {
     "url": "https://github.com/darioajr/yaml-doctor-npm/issues"
